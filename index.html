@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ATM Interface</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>ATM Machine</h1>
+
+        <input type="number" id="amount" placeholder="Enter amount (₹)" />
+
+        <div class="buttons">
+            <button onclick="makeTransaction('withdraw')">Withdraw</button>
+            <button onclick="makeTransaction('deposit')">Deposit</button>
+            <button onclick="makeTransaction('balance')">Check Balance</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function makeTransaction(action) {
+            const amount = document.getElementById('amount').value;
+            const response = await fetch('/transaction', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action, amount })
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = data.result;
+        }
+    </script>
+</body>
+</html>
